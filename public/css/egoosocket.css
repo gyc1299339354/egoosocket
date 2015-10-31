@@ -1,0 +1,313 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0px;
+    overflow: hidden;
+    color: rgb(136, 136, 136);
+}
+.backgroundinit{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #2A2A2A;
+}
+.matou{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    z-index: -2;
+}
+.egoo-chat {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 75%;
+    border: 0px;
+}
+.egoo-chat-head{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 65px;
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+    border-color: rgb(42, 42, 42);
+    box-shadow: 0px 1px 1px 0px rgba(10, 10, 10, 0.84);
+    background-color: rgba(40, 40, 40, 0.08);
+}
+.egoo-chat-head-onchat{
+    list-style:none;
+    position: absolute;
+    width: 90%;
+    margin: 0px;
+    padding:0px;
+}
+.egoo-chat-head-onchat li{
+    float: left;
+    margin: 0px 10px 0px 15px;
+    width: auto;
+    text-align: center;
+    height: 65px;
+    line-height: 200%;
+    cursor: default;
+}
+.egoo-chat-head-onchat li p{
+    display: inline-block;
+}
+.egoo-chat-head-onchat li div:first-child{
+    margin-top: 9px;
+}
+.egoo-chat-head-onchat li div:last-child{
+    position: absolute;
+    height: 65px;
+    border-style: solid;
+    border-color: rgb(90, 90, 90);
+    border-width: 0px 1px 0px 0px;
+    display: inline-block;
+    width: 0px;
+    margin: 0px 10px;
+    transform: rotate(14deg);
+    box-shadow: 1px 0px 1px 1px rgb(37, 32, 32);
+}
+.chatclose .user-icon{
+    opacity: 0.7;
+}
+
+.chatopen .user-icon{
+    opacity: 1;
+}
+.chatopen p{
+    color: white;
+}
+.egoo-chat-extra{
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    bottom: 105px;
+    background-color: rgba(40, 40, 40, 0.08);
+    padding: 10px 20px;
+}
+.egoo-chat-input{
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    bottom: 35px;
+    padding: 0px;
+    background-color: rgba(40, 40, 40, 0.08);
+    text-align: center;
+}
+.egoo-chat-input input{
+    width: 94%;
+    height: 100%;
+    padding: 0px 10px;
+    outline: 0px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: inherit;
+    box-shadow:  0px 1px 1px 0px rgb(32, 32, 32) inset,0px 1px 2px 0px rgb(98, 98, 98);
+}
+.egoo-chat-send{
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    bottom: 0;
+    background-color: rgba(40, 40, 40, 0.08);
+}
+.egoo-chat-send div{
+    position: absolute;
+    right: 5%;
+    top: 6px;
+    height: 23px;
+    width: 60px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(34, 34, 34);
+    text-align: center;
+    line-height: 180%;
+    box-shadow: 0px 1px 1px 0px rgb(87, 87, 87) inset,0px -1px 1px 0px rgb(47, 47, 47) inset,0px 1px 1px 0px rgb(16, 16, 16);
+    background: rgb(55,54,54);
+    color: white;
+    font-size: 14px;
+    cursor: default;
+}
+.egoo-chat-msgs {
+    position: absolute;
+    width: 100%;
+    top: 65px;
+    left: 0px;
+    border-style: solid;
+    border-width: 0px 0px 1px 1px;
+    border-color: rgb(42, 42, 42);
+    box-shadow: 0px 1px 1px 0px black;
+}
+.egoo-chat-msgs p{
+    
+}
+.egoo-chat-msgs ul{
+    list-style: none;
+    position: absolute;
+    width: 100%;
+    height: 90%;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.egoo-chat-msgs ul li{
+    position: relative;
+    clear: both;
+    margin:10px 50px;
+}
+.egoo-chat-msgs ul li div{
+    display: inline-block;
+}
+.li-left{
+    float: left;
+}
+.li-right{
+    float: right;
+}
+.chatmessage{
+    height: auto;
+    width: auto;
+    max-width: 400px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: wheat;
+    -webkit-border-radius: 12px 12px 12px 12px/18px 18px 18px 18px;
+    padding: 7px;
+    text-align: center;
+    /*line-height: 150%;*/
+    margin: 0px 10px;
+    position: relative;
+
+}
+
+.user-icon{
+    width: 50px;
+    height: 50px;
+    border: 0px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    background: url("../iconsofusers/me.jpeg");
+}
+.user-info{
+    position: absolute;
+    text-align: center;
+    padding: 10px 20px;
+}
+.egoo-unreads,.egoo-group{
+    position: absolute;
+    left: 0px;
+    width: 25%;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    z-index: 2;
+    box-shadow: -2px 0px 1px 0px rgb(42, 40, 40) inset;
+    background-color: rgba(0, 0, 0, 0.13);
+}
+.egoo-unreads h4,.egoo-group h4{
+    text-align: center;
+    line-height: 50%;
+}
+.egoo-group{
+    top: 0px;
+    height: 60%;
+    border-width: 0px 2px 0px 1px;
+}
+.egoo-group-list,.egoo-unreads-list{
+    position: absolute;
+    width: 100%;
+    background: inherit;
+
+}
+.egoo-group-list ul,.egoo-unreads-list ul{
+    height: 90%;
+    list-style: none;
+    padding: 10px;
+    margin: 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.egoo-group-list ul li,.egoo-unreads-list ul li{
+    margin: 7px 0px;
+    cursor: default;
+}
+.egoo-group-list ul li .user-icon
+{
+    margin-right: 10px;
+}
+.egoo-group-list ul li div,.egoo-unreads-list ul li div{
+    display: inline-block;
+}
+.egoo-group-list{
+    top: 46px;
+}
+.egoo-unreads-list{
+    bottom: 0px;
+}
+.egoo-group-head,.egoo-unreads-head{
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    background: -webkit-linear-gradient(top,rgb(40,40,40),rgb(45,45,45));
+    box-shadow:  0px 1px 2px 0px rgb(73,73,73) inset,0px 1px 2px 0px rgb(27, 27, 27);
+    border-style: solid;
+    border-color: #000000;
+    border-width: 0px 0px 1px 0px;
+}
+.egoo-unreads-head{
+    border-width: 1px 0px;
+}
+.egoo-unreads{
+    bottom: 0px;
+    height: 40%;
+    border-width: 0px 2px 1px 1px;
+}
+.unreadtip{
+    height: 20px;
+    width: 20px;
+    border-radius:50%;
+    background: red ;
+    text-align: center;
+    color: white;
+    line-height:130%;
+    float: right;
+    margin-top: 10px;
+}
+
+.file-progress{
+    width: 100%;
+    border: 0px;
+    border-radius: 2px;
+    position: relative;
+    height: 4px;
+    background: rgb(95, 95, 95);
+}
+.file-progress div {
+    width: 1%;
+    border: solid 2px red;
+    height: 0px;
+    border-radius: 2px;
+    position: absolute;
+    left: 0px;
+    box-shadow: 0px 0px 2px 1px red;
+}
+#usercenter{
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    bottom: 8px;
+}

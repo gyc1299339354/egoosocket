@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+<form action="/loginSession" method="post" class="egoo-login-div">
+    <input type="text" name="title" placeholder="title"/><br/>
+    <input type="text" name="content" placeholder="content"/><br/>
+    <input type="text" name="confirms" placeholder="confirms"/><br/>
+    <input type="button" value="login" onclick="login()">
+</form>
+
+</body>
+<script type="text/javascript" src="/jquery.js"></script>
+<script>
+    function login(){
+//        var _confirms = $('input[name="confirms"]').val().split(';');
+//        console.log(_confirms);
+//        var _data = {
+//            title:$('input[name="title"]').val(),
+//            content:$('input[name="content"]').val(),
+//            confirms:_confirms
+//        };
+
+        var _data = {
+            userid:'shanghaidiaodu',
+            uuid:'5053f8fd-0970-4a23-b032-cb446309eb1a'
+        };
+        $.ajax({
+            url:'/noticationconfirm',
+            type:'post',
+            dataType:'json',
+            data:_data,
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+</script>
+</html>

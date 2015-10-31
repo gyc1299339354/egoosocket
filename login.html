@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+<form action="/loginSession" method="post" class="egoo-login-div">
+    <input type="text" name="userid" placeholder="userid"/><br/>
+    <input type="password" name="password" placeholder="password"/><br/>
+    <input type="submit" value="login">
+</form>
+
+</body>
+<script type="text/javascript" src="/jquery.js"></script>
+<script>
+    function login(){
+        $.ajax({
+            url:'/loginSession',
+            type:'post',
+            dataType:'json',
+            data:{userid:$('input[name="userid"]').val(),
+                password:$('input[name="password"]').val()
+            },
+            success: function (data) {
+                if(data.result){
+                    alert('1');
+                }else{
+                    alert('0');
+                }
+            }
+        });
+    }
+
+</script>
+</html>

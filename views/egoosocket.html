@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!--<title>EGOO IM</title>-->
+    <title> <%= user.username %> , Welcome Egoo IM</title>
+    <link rel="stylesheet" href="/css/egoosocket.css">
+</head>
+<body>
+<div class="backgroundinit">
+    <img class="matou" src="/images/ma_tou4_1.png">
+</div>
+<div class="egoo-group">
+    <img class="matou" src="/images/ma_tou4_1.png">
+    <div class="egoo-group-head"><h4>会话群组</h4></div>
+    <div class="egoo-group-list">
+        <ul id="egoo-group-list-ul">
+        </ul>
+    </div>
+</div>
+<div class="egoo-unreads">
+    <img class="matou" src="/images/ma_tou4_1.png">
+    <div class="egoo-unreads-head"><h4>未读消息</h4></div>
+    <div class="egoo-unreads-list">
+        <ul id="egoo-unreads-list-ul">
+            <!--<li>-->
+                <!--<div class="user-icon"></div>-->
+                <!--<div class="user-info" egoo-usersocket="Dick Dragon">Dick Dragon</div>-->
+                <!--<div class="unreadtip">2</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</div>
+
+<div class="egoo-chat">
+    <div class="egoo-chat-head">
+        <img src="/images/ma_tou4_1.png" style="width: 100%;height: 100%;position:absolute;">
+        <ul class="egoo-chat-head-onchat">
+            <!--<li class="chatopen"><div class="user-icon"></div><p>Dick Deomain</p><div></div></li>-->
+        </ul>
+        <div id="usercenter" userName=<%= user.username %> userId=<%= user.userid %> ></div>
+    </div>
+    <div class="egoo-chat-msgs" id="msgs">
+        <ul id="msgsUl">
+            <!--<li class="li-left"><div class="user-icon"></div>-->
+                <!--<div class="chatmessage">-->
+                    <!--文件名称：xxxxx(xxxxx kb)<br/>-->
+                    <!--<div class="file-progress">-->
+                        <!--<div></div>-->
+                    <!--</div>-->
+                    <!--<p></p>-->
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+    <div class="egoo-chat-extra">
+        <div id="egoo-chat-extra-file">
+            发送文件
+            <input type="file" id="fileIpt" style="display: none;">
+        </div>
+    </div>
+    <div class="egoo-chat-input">
+        <input type="text" id="msgIpt" class="msgIpt">
+    </div>
+    <div class="egoo-chat-send">
+        <div id="sendBtn">发送</div>
+        <div id="sendFileBtn" style="position: absolute;left: 0px;">发送文件</div>
+    </div>
+</div>
+<div id="files">
+</div>
+</body>
+<script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript" src="/javascript/egooclientui.js"></script>
+<script type="text/javascript" src="/javascript/egooclient.js"></script>
+<script type="text/javascript" src="/javascript/egooclientinit.js"></script>
+</html>

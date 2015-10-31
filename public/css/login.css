@@ -1,0 +1,9 @@
+html,body{
+    padding: 0px;
+    margin: 0px;
+}
+.egoo-login-div{
+    position: fixed;
+    top: 30%;
+    left: 40%;
+}

@@ -279,7 +279,7 @@ p{
 .center-top-div span{
 	position: relative;
 	float: left;
-	margin: 10px;
+	margin: 10px 5px 0px 6px;
 }
 /**
  * 中央区域 中
@@ -678,4 +678,30 @@ checkbox
 .group-list li .icon-checkbox{
 	float: right;
 	margin:10px 10px 0px 0px;
+}
+/*
+	msg备选人
+*/
+.cssx{
+	display: inline-block;
+	width: 13px;
+}
+.cssx p {
+	width: 12px;
+	height: 2px;
+	background: rgb(145, 145, 145);
+	font-size: 0;
+	line-height: 0;
+	vertical-align: middle;
+	-webkit-transform: rotate(45deg);
+	margin: 0px 0px 2px 5px;
+	display: none;
+}
+.cssx p:after {
+	content: '.';
+	display: block;
+	width: 12px;
+	height: 2px;
+	background: rgb(145, 145, 145);
+	-webkit-transform: rotate(-90deg);
 }

@@ -2,7 +2,8 @@
 	initStyle();
 	//获取数据
 	//获取群组数据
-	getgroup();
+	var userid = document.URL.split('?')[1];
+	getgroup(userid);
 	initmessage();
 
 	//事件初始化
@@ -34,6 +35,7 @@
 			$(this).addClass('onselected');
 		}
 	});
+
 })();
 window.onresize = function(){
 	initStyle();
@@ -59,11 +61,12 @@ function initStyle(){
 	$('.confirm-body').css('height',$('.confirm').height()-79);
 }
 //获取群组
-function getgroup(){
+function getgroup(userid){
 	$.ajax({
 		url:'/getgroup',
 		type:'post',
 		dataType:'json',
+		data:{userid:userid},
 		success:function (data){
 			var sms = data.SMS,
 				im = data.IM;
@@ -118,17 +121,22 @@ function initgroupevent(){
 			if($(this).parent().hasClass('groupname')){
 				$('.'+$(this).parent().attr('openguys')).find('.icon-checkbox').each(function () {
 					var _thisid = $(this).prev('p').attr('userid'),
+						_thismobile = $(this).prev('p').attr('mobile'),
 						_thisname = $(this).prev('p').html();
-					if($('#msg_'+_thisid).length===0){
-						$('.center-top-div').append('<span id="msg_'+_thisid+'">'+_thisname+'</span>');
-					}
+
+					appendToMsgDiv('msguser',_thismobile,_thisid,_thisname);
+					//if($('#msg_'+_thisid).length===0){
+					//	$('.center-top-div').append('<span class="msgdiv msguser" id="msg_'+_thisid+'">'+_thisname+'</span>');
+					//}
 					$(this).addClass('checked');
 				});
 			}
 			var thisid = $(this).prev('p').attr('userid'),
+				thismobile = $(this).prev('p').attr('mobile'),
 				thisname = $(this).prev('p').html();
 			if(!$(this).parent().hasClass('groupname')){
-				$('.center-top-div').append('<span id="msg_'+thisid+'">'+thisname+'</span>');
+				appendToMsgDiv('msguser',thismobile,thisid,thisname);
+				//$('.center-top-div').append('<span class="msgdiv msguser" id="msg_'+thisid+'">'+thisname+'</span>');
 			}
 			$(this).addClass('checked');
 		}
@@ -313,4 +321,56 @@ function getconfirmByuuid(uuid,allconfirmed){
 			});
 		}
 	},1000);
+}
+
+function appendToMsgDiv(type,mobile,id,name){
+	var append = '',
+		_id;
+	if(type==='msguser'){
+		var _mobile = (mobile)?mobile:'';
+		_id = 'msg_'+id;
+		append = '<span class="msgdiv '+type+'" id="'+_id+'" mobile="'+_mobile+'">'+name+'<div class="cssx"><p><\/p></div><\/span>';
+
+	}else if(type==='msgmobile'){
+		_id = 'msg_'+mobile;
+		append = '<span class="msgdiv '+type+'" id="'+_id+'">'+mobile+'<div class="cssx"><p><\/p></div><\/span>';
+	}
+
+	if($('#'+_id).length===0){
+		$('.center-top-div').append(append);
+		initMsgDivEvent($('#'+_id));
+	}else{
+		return false;
+	}
+}
+
+/*
+* 添加电话至中上区div内
+* */
+function addmobile(){
+	var mobileNumber = $('input[name="addmobile"]').val();
+	var mobileReg = !!mobileNumber.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+	if(mobileReg !== false){
+		appendToMsgDiv('msgmobile',mobileNumber);
+		//$('.center-top-div').append('<span class="msgdiv msgmobile" id="msg_'+mobileNumber+'">'+mobileNumber+'<p class="cssx"><\/p><\/span>');
+		//initMsgDivEvent($('#msg_'+mobileNumber));
+	}
+}
+
+/**
+ * 添加备选人的事件设定
+ * @param dom
+ * dom is jquery obj
+ */
+function initMsgDivEvent(dom){
+	//备选人鼠标划过事件
+	dom.hover(function () {
+		$(this).css('color','white');
+		$(this).find('p').css('display','inline-block');
+	}, function () {
+		$(this).css('color','rgb(145, 145, 145)');
+		$(this).find('p').css('display','none');
+	});
+	//删除备选人事件
+
 }

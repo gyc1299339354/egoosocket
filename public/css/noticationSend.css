@@ -280,6 +280,7 @@ p{
 	position: relative;
 	float: left;
 	margin: 10px 5px 0px 6px;
+	cursor: default;
 }
 /**
  * 中央区域 中

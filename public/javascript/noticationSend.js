@@ -84,12 +84,12 @@ var initGroup = function (arraygroup,type) {
 		var name = arraygroup[i].name,
 			id = arraygroup[i].id,
 			people = arraygroup[i].people;
-		var append = '<li class="groupname" openguys="groupguy_group'+i+'"><div class="icon-triangle"><\/div><p userid="'+id+'">'+name+'<\/p><div class="icon-checkbox"><\/div><\/li>';
+		var append = '<li class="groupname" openguys="groupguy_'+type+'_group'+i+'"><div class="icon-triangle"><\/div><p userid="'+id+'">'+name+'<\/p><div class="icon-checkbox"><\/div><\/li>';
 		for(j=0;j<people.length;j++){
 			var guyname = people[j].name,
 				guymobile = people[j].mobile?people[j].mobile:'',
 				guyid = people[j].id;
-			append += '<li class="groupguy groupguy_group'+i+'"><p userid="'+guyid+'" mobile="'+guymobile+'">'+guyname+'<\/p> <div class="icon-checkbox"><\/div> <\/li>';
+			append += '<li class="groupguy groupguy_'+type+'_group'+i+'"><p userid="'+guyid+'" mobile="'+guymobile+'">'+guyname+'<\/p> <div class="icon-checkbox"><\/div> <\/li>';
 		}
 		$('.'+type+'-body').find('.group-list').append(append);
 	}
@@ -372,5 +372,13 @@ function initMsgDivEvent(dom){
 		$(this).find('p').css('display','none');
 	});
 	//删除备选人事件
-
+	dom.find('p').click(function () {
+		var parentDom = $(this).parent().parent();
+		if(parentDom.hasClass('msguser')){
+			var _id = parentDom.attr('id').replace('msg_','');
+			$('p[userid="'+_id+'"]').next('div').removeClass('checked');
+			$('.groupname[openguys="groupguy_duanxin_group0"]').find('.icon-checkbox').removeClass('checked');
+		}
+		parentDom.remove();
+	});
 }

@@ -166,3 +166,11 @@ app.post('/noticationconfirm', function (req,res) {
 app.post('/getconfirmedbyuuid', function (req, res) {
 	notication.getconfirmed(req.body.uuid,res);
 });
+//获取群组
+app.post('/getgroup', function (req, res) {
+	notication.getgroup(res);
+});
+//获取短信模版
+app.post('/getmessage', function (req, res) {
+	notication.getmessage(res);
+});

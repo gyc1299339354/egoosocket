@@ -231,6 +231,9 @@ p{
 	margin: 10px 0px 0px 10px;
 	font-size: 13px;
 }
+.msg-list li span{
+	display: none;
+}
 .addmsgtemplate,.addgroup{
 	position: absolute;
 	bottom: 0px;
@@ -270,6 +273,13 @@ p{
 	border: solid rgb(47, 47, 47) 1px;
 	border-radius: 10px;
 	box-shadow: 0px 1px 1px 1px black inset, 0px 1px 1px 0px rgba(240, 234, 234, 0.29);
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.center-top-div span{
+	position: relative;
+	float: left;
+	margin: 10px;
 }
 /**
  * 中央区域 中
@@ -559,16 +569,19 @@ p{
 	overflow-x: hidden;
 }
 
-.list::-webkit-scrollbar{
+.center-top-div::-webkit-scrollbar,.list::-webkit-scrollbar{
 	width:8px;
 	background: rgba(108, 108, 108, 0.3);
 	border: 0px;
 	border-radius: 3px;
 }
-.list::-webkit-scrollbar-button{
+.center-top-div::-webkit-scrollbar{
+	border-radius: 31px;
+}
+.center-top-div::-webkit-scrollbar-button,.list::-webkit-scrollbar-button{
 	display: none;
 }
-.list::-webkit-scrollbar-thumb{
+.center-top-div::-webkit-scrollbar-thumb,.list::-webkit-scrollbar-thumb{
 	border: 0px;
 	border-radius: 3px;
 	background: rgba(34, 34, 34, 0.6);

@@ -1,22 +1,11 @@
-+(function(){
+;(function(){
 	initStyle();
+	//获取数据
+	//获取群组数据
+	getgroup();
+	initmessage();
+
 	//事件初始化
-	//三角形下拉
-	$('.icon-triangle').click(function(){
-		if($(this).hasClass('open')){
-			$(this).removeClass('open');
-		}else{
-			$(this).addClass('open');
-		}
-	});
-	//checkbox
-	$('.icon-checkbox').click(function () {
-		if($(this).hasClass('checked')){
-			$(this).removeClass('checked');
-		}else{
-			$(this).addClass('checked');
-		}
-	});
 	//群组选择
 	$('.grouphead').click(function () {
 		if($(this).hasClass('groupopen')){
@@ -30,23 +19,6 @@
 			$('.'+thisbody).css('display','block');
 			$(this).addClass('groupopen');
 		}
-	});
-	//群组下拉
-	$('.groupname .icon-triangle').click(function () {
-		//jquery array
-		var groupguys = $('.'+$(this).parent().attr('openguys'));
-		var count = 0 ;
-		var countTime = setInterval(function () {
-			//show to grouplist
-			$(groupguys[count]).toggle('10');
-			count++;
-			if(count === groupguys.length){
-				clearInterval(countTime);
-				resetAnimate();
-			}
-		},10);
-
-
 	});
 	//短信模版和历史纪录
 	$('.msghistoryhead').click(function () {
@@ -85,10 +57,137 @@ function initStyle(){
 	$('.center-bottom-content').css('height', $('.center-bottom').height()-110);
 	$('.confirm').css('height',windowHeight-201);
 	$('.confirm-body').css('height',$('.confirm').height()-79);
+}
+//获取群组
+function getgroup(){
+	$.ajax({
+		url:'/getgroup',
+		type:'post',
+		dataType:'json',
+		success:function (data){
+			var sms = data.SMS,
+				im = data.IM;
+			initGroup(sms,'duanxin');
+			initGroup(im,'xinxi');
+			initgroupevent();
+		}
+	});
+}
+//初始化群组页面
+var initGroup = function (arraygroup,type) {
+	var i,j;
 
+	for(i=0;i<arraygroup.length;i++){
+		var name = arraygroup[i].name,
+			id = arraygroup[i].id,
+			people = arraygroup[i].people;
+		var append = '<li class="groupname" openguys="groupguy_group'+i+'"><div class="icon-triangle"><\/div><p userid="'+id+'">'+name+'<\/p><div class="icon-checkbox"><\/div><\/li>';
+		for(j=0;j<people.length;j++){
+			var guyname = people[j].name,
+				guymobile = people[j].mobile?people[j].mobile:'',
+				guyid = people[j].id;
+			append += '<li class="groupguy groupguy_group'+i+'"><p userid="'+guyid+'" mobile="'+guymobile+'">'+guyname+'<\/p> <div class="icon-checkbox"><\/div> <\/li>';
+		}
+		$('.'+type+'-body').find('.group-list').append(append);
+	}
+};
+//初始化群组事件
+function initgroupevent(){
+	//三角形下拉
+	$('.icon-triangle').click(function(){
+		if($(this).hasClass('open')){
+			$(this).removeClass('open');
+		}else{
+			$(this).addClass('open');
+		}
+	});
+	//checkbox
+	$('.icon-checkbox').click(function () {
+		if($(this).hasClass('checked')){
+			if($(this).parent().hasClass('groupname')){
+				$('.'+$(this).parent().attr('openguys')).find('.icon-checkbox').each(function () {
+					var _thisid = $(this).prev('p').attr('userid');
+					$('.center-top-div #msg_'+_thisid).remove();
+					$(this).removeClass('checked');
+				});
+			}
 
+			$('.center-top-div #msg_'+$(this).prev('p').attr('userid')).remove();
+			$(this).removeClass('checked');
+		}else{
+			if($(this).parent().hasClass('groupname')){
+				$('.'+$(this).parent().attr('openguys')).find('.icon-checkbox').each(function () {
+					var _thisid = $(this).prev('p').attr('userid'),
+						_thisname = $(this).prev('p').html();
+					if($('#msg_'+_thisid).length===0){
+						$('.center-top-div').append('<span id="msg_'+_thisid+'">'+_thisname+'</span>');
+					}
+					$(this).addClass('checked');
+				});
+			}
+			var thisid = $(this).prev('p').attr('userid'),
+				thisname = $(this).prev('p').html();
+			if(!$(this).parent().hasClass('groupname')){
+				$('.center-top-div').append('<span id="msg_'+thisid+'">'+thisname+'</span>');
+			}
+			$(this).addClass('checked');
+		}
+	});
+	//群组下拉
+	$('.groupname .icon-triangle').click(function () {
+		//jquery array
+		var groupguys = $('.'+$(this).parent().attr('openguys'));
+		var count = 0 ;
+		var countTime = setInterval(function () {
+			//show to grouplist
+			$(groupguys[count]).toggle('10');
+			count++;
+			if(count === groupguys.length){
+				clearInterval(countTime);
+				resetAnimate();
+			}
+		},10);
+	});
 }
 
+//初始化短信模版
+function initmessage(){
+	$.ajax({
+		url:'/getmessage',
+		type:'post',
+		dataType:'json',
+		success:function (data){
+			var msgList = data.msgList;
+			initmsghtml(msgList);
+			initmsgevent();
+		}
+	});
+}
+//初始化短信模版页面
+function initmsghtml(msgList){
+	if(msgList){
+		var i,
+			append = '';
+		for(i=0;i<msgList.length;i++){
+			var msgcontent = msgList[i].content,
+				msgid = msgList[i].id,
+				msgtitle = msgList[i].title;
+			append += '<li><p>'+msgtitle+'<\/p><span>'+msgcontent+'<\/span><div class="deletemsgtemplate" msgid="'+msgid+'"><\/div><\/li>'
+		}
+		$('.msg-list').append(append);
+	}
+}
+//初始化短信事件
+function initmsgevent(){
+	$('.msg-list li p').click(function () {
+		var thistitle = $(this).html(),
+			thiscontent = $(this).parent().find('span').html();
+
+		$('input[name="title"]').val(thistitle);
+		$('.center-bottom-content').val(thiscontent);
+
+	});
+}
 //发送编辑好的推送消息
 function sendNotication(){
 	var _title = $('input[name="title"]').val();

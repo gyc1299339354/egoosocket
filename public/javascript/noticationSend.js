@@ -197,27 +197,52 @@ function initmsgevent(){
 	});
 }
 //发送编辑好的推送消息
-function sendNotication(){
+function sendNotication(isdelay){
 	var _title = $('input[name="title"]').val();
 	var _content = $('.center-bottom-content').val();
 	//获取checked
 	//var _confirms = ['shanghaidiaodu'];
-	var _confirms = [];
-	var _confirmsList = [];
-	$('.checked').each(function () {
-		_confirms.push($(this).prev('p').attr('userid'));
-		_confirmsList.push({
-			id:$(this).prev('p').attr('userid'),
-			name:$(this).prev('p').html()
-		});
+	var _confirms = [],
+		_confirmsList = [],
+		_mobiles = [];
+
+	$('.msgdiv').each(function () {
+		if($(this).hasClass('msguser')){
+			var _userid = $(this).attr('id').replace('msg_',''),
+				//<div class="cssx"><p style="display: none;"></p></div>
+				_username = $(this).html().replace(/<div(.*)>/,''),
+				_mobile = $(this).attr('mobile');
+
+			_confirms.push(_userid);
+			_mobiles.push(_mobile);
+			_confirmsList.push({
+				id:_userid,
+				name:_username
+			});
+
+		}else if($(this).hasClass('msgmobile')){
+			var _mobile = $(this).attr('id').replace('msg_','');
+			_mobiles.push(_mobile);
+		}
 	});
 
 
 	var _data = {
 		title:_title,
 		content:_content,
-		confirms:_confirms
+		confirms:_confirms,
+		mobiles:_mobiles
 	};
+	//延迟发送
+	if(isdelay){
+		var sendtimestamp = [$('input[name="year"]').val(),$('input[name="month"]').val(),$('input[name="day"]').val(),$('input[name="hour"]').val(),$('input[name="minite"]').val(),0];
+		console.log(sendtimestamp);
+		//if(sendtimestamp - (new Date()).valueOf() <= 0){
+		//	return false;
+		//}else{
+			_data.sendtime = sendtimestamp;
+		//}
+	}
 	//动画
 	loadingAimate();
 	//加入反馈确认表
@@ -230,6 +255,7 @@ function sendNotication(){
 		data:_data,
 		success: function (data) {
 			//返回uuid
+			console.log(data.uuid);
 			getconfirmByuuid(data.uuid);
 		}
 	});
@@ -303,7 +329,7 @@ function getconfirmByuuid(uuid,allconfirmed){
 				success: function (data) {
 					//返回已经确认的 userid
 					//["",""]
-					console.log(data);
+					//console.log(data);
 					for(var i=0;i<data.length;i++){
 						if($('#confirm_'+data[i]).hasClass('confirmed')){
 							continue;
@@ -320,7 +346,7 @@ function getconfirmByuuid(uuid,allconfirmed){
 				}
 			});
 		}
-	},1000);
+	},2000);
 }
 
 function appendToMsgDiv(type,mobile,id,name){

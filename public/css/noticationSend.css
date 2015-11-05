@@ -223,13 +223,22 @@ p{
 .history-body {
 	display: none;
 }
-.msg-list li,.history-list li{
+.msg-list li{
 	height: 23px !important;
+	border-width: 0px !important;
+}
+.history-list li{
+	height: 30px !important;
 	border-width: 0px !important;
 }
 .msg-list li p,.history-list li p{
 	margin: 10px 0px 0px 10px;
 	font-size: 13px;
+}
+.history-list li span{
+	font-size: 13px;
+	margin-left: 10%;
+	cursor: default;
 }
 .msg-list li span{
 	display: none;
@@ -563,7 +572,7 @@ p{
 	position: absolute;
 	top: 0px;
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	background: inherit;
 	margin: 0px;
 	overflow-y: auto;

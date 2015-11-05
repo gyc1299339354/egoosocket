@@ -175,3 +175,11 @@ app.post('/getgroup', function (req, res) {
 app.post('/getmessage', function (req, res) {
 	notication.getmessage(res);
 });
+//获取用户的推送纪录
+app.post('/getnotihistory', function (req, res) {
+	notication.getnotihistorybyuserid(req.body.userid,res);
+});
+//获取推送详情
+app.post('/getnoticationbyuuid', function (req, res) {
+	notication.getnoticationbyuuid(req.body.uuid,res);
+});

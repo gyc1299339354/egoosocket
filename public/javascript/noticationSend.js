@@ -1,10 +1,20 @@
 ;(function(){
 	initStyle();
 	//获取数据
-	//获取群组数据
+	//获取数据
 	var userid = document.URL.split('?')[1];
-	getgroup(userid);
-	initmessage();
+	if(userid && userid.length !== 0){
+		window.thisuserid = userid;
+		//群组
+		getgroup(userid);
+		//短信模版
+		initmessage();
+		//历史纪录
+		inithistory(userid);
+	}else{
+		return false;
+	}
+
 
 	//事件初始化
 	//群组选择
@@ -196,6 +206,69 @@ function initmsgevent(){
 
 	});
 }
+//初始化历史记录
+function inithistory(userid){
+	$.ajax({
+		url:'/getnotihistory',
+		type:'post',
+		data:{userid:userid},
+		datatype:'json',
+		success: function (data) {
+			inithistoryhtml(data);
+		}
+	});
+}
+//初始化历史页面
+function inithistoryhtml(hislist){
+	if(hislist && hislist.length !==0 ){
+		$('.history-list').html('');
+		var i;
+		for(i=0;i<hislist.length;i++){
+			var append = '<li id="uuid_'+hislist[i].noticationuuid+'"><p>'+hislist[i].datetime+'<\/p><span>'+hislist[i].title+'<\/span><div class="deletemsgtemplate"><\/div><\/li>';
+			$('.history-list').append(append);
+			//点击事件
+			inithistoryevent($('#uuid_'+hislist[i].noticationuuid));
+		}
+	}else{
+		return false;
+	}
+}
+//初始化历史事件
+function inithistoryevent(jquerydom){
+	$(jquerydom).click(function () {
+		var noticationuuid = $(this).attr('id').replace('uuid_','');
+
+		if(noticationuuid && noticationuuid.length!==0){
+			$.ajax({
+				url:'/getnoticationbyuuid',
+				type:'post',
+				data:{uuid:noticationuuid},
+				datatype:'json',
+				success: function (data) {
+					console.log(data);
+					var _title = data.title,
+						_content = data.content,
+						_confirms = data.confirms;
+
+					$('input[name="title"]').val(_title);
+					$('.center-bottom-content').val(_content);
+
+					//反馈列表
+					var confirmList = [];
+					for(var keyname in _confirms){
+						confirmList.push({
+							id:keyname,
+							name:_confirms[keyname].name,
+							isread:_confirms[keyname].isread
+						});
+					}
+					confirmAnimate(confirmList,100);
+
+				}
+			});
+		}
+	});
+}
 //发送编辑好的推送消息
 function sendNotication(isdelay){
 	var _title = $('input[name="title"]').val();
@@ -213,7 +286,7 @@ function sendNotication(isdelay){
 				_username = $(this).html().replace(/<div(.*)>/,''),
 				_mobile = $(this).attr('mobile');
 
-			_confirms.push(_userid);
+			_confirms.push(JSON.parse('{"'+_userid+'":"'+_username+'"}'));
 			_mobiles.push(_mobile);
 			_confirmsList.push({
 				id:_userid,
@@ -233,6 +306,12 @@ function sendNotication(isdelay){
 		confirms:_confirms,
 		mobiles:_mobiles
 	};
+	//发送者
+	if(window.thisuserid){
+		_data.noticationwriter = window.thisuserid;
+	}else{
+		return false;
+	}
 	//延迟发送
 	if(isdelay){
 		var sendtimestamp = [$('input[name="year"]').val(),$('input[name="month"]').val(),$('input[name="day"]').val(),$('input[name="hour"]').val(),$('input[name="minite"]').val(),0];
@@ -256,6 +335,9 @@ function sendNotication(isdelay){
 		success: function (data) {
 			//返回uuid
 			console.log(data.uuid);
+			//刷新历史纪录
+			inithistory(window.thisuserid);
+			//
 			getconfirmByuuid(data.uuid);
 		}
 	});
@@ -287,15 +369,20 @@ function resetAnimate(){
 * 反馈确认动画
 * [{id:'',name:''}]
 * */
-function confirmAnimate(confirmList){
+function confirmAnimate(confirmList,animatetime){
+	//清除
+	$('.confirm-list').html('');
 	//添加到confirm list
 	for(var i= 0 ; i<confirmList.length; i++){
-		var appendLi = '<li id="confirm_'+confirmList[i].id+'"> <p class="confirm-name">'+confirmList[i].name+'<\/p> <img class="confirm-icon" src="/images/unconfirm.png"\/><\/li>';
+		var isreadimg = (confirmList[i].isread)?'/images/confirm.png':'/images/unconfirm.png',
+			appendLi = '<li id="confirm_'+confirmList[i].id+'"> <p class="confirm-name">'+confirmList[i].name+'<\/p> <img class="confirm-icon" src="'+isreadimg+'"\/><\/li>';
 		$('.confirm-list').append(appendLi);
 	}
 
-	var _confirmlist = $('.confirm-list').find('li');
-	var _index = 0;
+	var _confirmlist = $('.confirm-list').find('li'),
+		_index = 0,
+		_animatetime = animatetime || 500;
+
 	var animatecount =	setInterval(function () {
 			$(_confirmlist[_index]).addClass('animated');
 			$(_confirmlist[_index]).addClass('fadeInRightBig');
@@ -309,7 +396,7 @@ function confirmAnimate(confirmList){
 			if( _index === _confirmlist.length ){
 				clearInterval(animatecount);
 			}
-		},500);
+		},_animatetime);
 }
 
 /*
@@ -329,7 +416,7 @@ function getconfirmByuuid(uuid,allconfirmed){
 				success: function (data) {
 					//返回已经确认的 userid
 					//["",""]
-					//console.log(data);
+					console.log(data);
 					for(var i=0;i<data.length;i++){
 						if($('#confirm_'+data[i]).hasClass('confirmed')){
 							continue;

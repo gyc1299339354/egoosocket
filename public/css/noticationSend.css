@@ -415,6 +415,9 @@ p{
 	top: 60px;
 	border-radius: 6px;
 }
+.invalidcontent{
+	background-color: rgba(255, 0, 0, 0.16) !important;
+}
 /**
  * 右侧
  */

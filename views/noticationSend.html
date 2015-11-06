@@ -251,7 +251,7 @@
 			<div class="center-middle">
 				<img class="backgroundimg" src="/images/ma_tou4_1.png" />
 				<input class="add-input" name="addmobile" />
-				<div class="add-icon"></div>
+				<div class="add-icon" id="deletenumber"></div>
 				<div class="add-button" onclick="addmobile()">添 加</div>
 				<input class="msgtemplate-input" placeholder="短信模版" />
 				<div class="msgtemplate-button-save">保 存</div>
@@ -346,10 +346,10 @@
 							<p>延时发送</p>
 						</li>
 						<li>
-							<div class="greenbutton" onclick="sendNotication(true)">短 信</div>
+							<div class="greenbutton" >短 信</div>
 						</li>
 						<li>
-							<div class="greenbutton">信 息</div>
+							<div class="greenbutton" onclick="sendNotication(true)">信 息</div>
 						</li>
 					</ul>
 				</div>
@@ -423,6 +423,7 @@
 
 	</body>
 	<script type="text/javascript" src="/jquery.js"></script>
+	<script type="text/javascript" src="/javascript/noticationSendSocket.js"></script>
 	<script type="text/javascript" src="/javascript/noticationSend.js"></script>
 
 </html>

@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
 	var cookies = req.headers.cookie;
 
 	if(req.headers.cookie && req.sessionID === req.headers.cookie.sessionid){
-		res.sendfile(__dirname + '/index.html.html');
+		res.sendfile(__dirname + '/index.html');
 	}else{
 		res.redirect('/login');
 	}
@@ -160,7 +160,7 @@ app.get('/getnoticationbyuserid', function (req, res) {
 });
 //确认被推送的消息:一个一个来
 app.post('/noticationconfirm', function (req,res) {
-	notication.confirmNotication(req.body,res);
+	notication.confirmNotication(req.body,res,SkyRTC.rtc);
 });
 //已确认消息的用户
 app.post('/getconfirmedbyuuid', function (req, res) {
@@ -182,4 +182,8 @@ app.post('/getnotihistory', function (req, res) {
 //获取推送详情
 app.post('/getnoticationbyuuid', function (req, res) {
 	notication.getnoticationbyuuid(req.body.uuid,res);
+});
+//对应至数据库的tempnoticationsocketid
+app.post('/maptotempnoticationsocketid', function (req, res) {
+	notication.maptotempnoticationsocketid(req.body,res);
 });

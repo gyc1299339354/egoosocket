@@ -1,5 +1,7 @@
 ;(function(){
 	initStyle();
+	//建立socket连接
+
 	//获取数据
 	//获取数据
 	var userid = document.URL.split('?')[1];
@@ -45,11 +47,16 @@
 			$(this).addClass('onselected');
 		}
 	});
-
+	//退格电话号码
+	$('#deletenumber').click(function () {
+		$('input[name="addmobile"]').val($('input[name="addmobile"]').val().substr(0,$('input[name="addmobile"]').val().length-1));
+	});
 })();
 window.onresize = function(){
 	initStyle();
 };
+var noticationsocket = buildSocket();
+noticationsocket.connect("ws:" + window.location.href.substring(window.location.protocol.length).split('?')[0]);
 //页面初始化
 function initStyle(){
 	//高宽初始化
@@ -238,6 +245,8 @@ function inithistoryevent(jquerydom){
 	$(jquerydom).click(function () {
 		var noticationuuid = $(this).attr('id').replace('uuid_','');
 
+		$('.confirm-list').attr('noticationuuid',noticationuuid);
+
 		if(noticationuuid && noticationuuid.length!==0){
 			$.ajax({
 				url:'/getnoticationbyuuid',
@@ -245,7 +254,7 @@ function inithistoryevent(jquerydom){
 				data:{uuid:noticationuuid},
 				datatype:'json',
 				success: function (data) {
-					console.log(data);
+					//console.log(data);
 					var _title = data.title,
 						_content = data.content,
 						_confirms = data.confirms;
@@ -272,7 +281,26 @@ function inithistoryevent(jquerydom){
 function sendNotication(isdelay){
 	var _title = $('input[name="title"]').val();
 	var _content = $('.center-bottom-content').val();
-	//获取checked
+
+	//发送保护 内容
+	if(!_title || _title.length === 0){
+		$('input[name="title"]').addClass('invalidcontent');
+		setTimeout(function () {
+			$('input[name="title"]').removeClass('invalidcontent')
+		},2000);
+
+		return false;
+	}
+	if(!_content || _content.length === 0){
+		$('.center-bottom-content').addClass('invalidcontent');
+		setTimeout(function () {
+			$('.center-bottom-content').removeClass('invalidcontent')
+		},2000);
+
+		return false;
+	}
+
+	//获取已选联系人
 	//var _confirms = ['shanghaidiaodu'];
 	var _confirms = [],
 		_confirmsList = [],
@@ -297,7 +325,15 @@ function sendNotication(isdelay){
 			_mobiles.push(_mobile);
 		}
 	});
+	//发送保护，人员
+	if(_confirms.length === 0 ){
+		$('.center-top-div').addClass('invalidcontent');
+		setTimeout(function () {
+			$('.center-top-div').removeClass('invalidcontent')
+		},2000);
 
+		return false;
+	}
 
 	var _data = {
 		title:_title,
@@ -314,7 +350,7 @@ function sendNotication(isdelay){
 	//延迟发送
 	if(isdelay){
 		var sendtimestamp = [$('input[name="year"]').val(),$('input[name="month"]').val(),$('input[name="day"]').val(),$('input[name="hour"]').val(),$('input[name="minite"]').val(),0];
-		console.log(sendtimestamp);
+		//console.log(sendtimestamp);
 		//if(sendtimestamp - (new Date()).valueOf() <= 0){
 		//	return false;
 		//}else{
@@ -333,11 +369,13 @@ function sendNotication(isdelay){
 		data:_data,
 		success: function (data) {
 			//返回uuid
-			console.log(data.uuid);
+			console.log("返回的推送uuid："+data.uuid);
+			//赋值于当前反馈列
+			$('.confirm-list').attr('noticationuuid',data.uuid);
 			//刷新历史纪录
 			inithistory(window.thisuserid);
-			//
-			getconfirmByuuid(data.uuid);
+			//刷数据库（备用）
+			//getconfirmByuuid(data.uuid);
 		}
 	});
 }
@@ -403,7 +441,8 @@ function confirmAnimate(confirmList,animatetime){
 * */
 function getconfirmByuuid(uuid,allconfirmed){
 	setTimeout(function () {
-		if(allconfirmed){
+		var _allconfirmed = allconfirmed || 1;
+		if( _allconfirmed === 10 ){
 			return;
 		}else{
 			var _data = { 'uuid' : uuid };
@@ -415,7 +454,7 @@ function getconfirmByuuid(uuid,allconfirmed){
 				success: function (data) {
 					//返回已经确认的 userid
 					//["",""]
-					console.log(data);
+					//console.log(data);
 					for(var i=0;i<data.length;i++){
 						if($('#confirm_'+data[i]).hasClass('confirmed')){
 							continue;
@@ -424,11 +463,12 @@ function getconfirmByuuid(uuid,allconfirmed){
 							$('#confirm_'+data[i]).addClass('confirmed');
 						}
 					}
-
+					_allconfirmed++;
 					if( $('.confirm-list').find('li').length === $('.confirmed').length ){
-						allconfirmed = true;
+						_allconfirmed = 10;
 					}
-					getconfirmByuuid(uuid,allconfirmed);
+
+					getconfirmByuuid(uuid,_allconfirmed);
 				}
 			});
 		}

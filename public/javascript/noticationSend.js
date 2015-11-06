@@ -263,7 +263,6 @@ function inithistoryevent(jquerydom){
 						});
 					}
 					confirmAnimate(confirmList,100);
-
 				}
 			});
 		}

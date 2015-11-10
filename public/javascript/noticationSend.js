@@ -4,7 +4,7 @@
 
 	//获取数据
 	//获取数据
-	var userid = document.URL.split('?')[1];
+	var userid = document.URL.split('?')[1].split('=')[1];
 	if(userid && userid.length !== 0){
 		window.thisuserid = userid;
 		//群组
@@ -50,6 +50,13 @@
 	//退格电话号码
 	$('#deletenumber').click(function () {
 		$('input[name="addmobile"]').val($('input[name="addmobile"]').val().substr(0,$('input[name="addmobile"]').val().length-1));
+	});
+	//绿色按钮点击事件
+	$('.greenbutton').mousedown(function () {
+		$(this).css('font-size','12px');
+	});
+	$('.greenbutton').mouseup(function () {
+		$(this).css('font-size','13px');
 	});
 })();
 window.onresize = function(){
@@ -231,7 +238,11 @@ function inithistoryhtml(hislist){
 		$('.history-list').html('');
 		var i;
 		for(i=0;i<hislist.length;i++){
-			var append = '<li id="uuid_'+hislist[i].noticationuuid+'"><p>'+hislist[i].datetime+'<\/p><span>'+hislist[i].title+'<\/span><div class="deletemsgtemplate"><\/div><\/li>';
+
+			var _datetime = new Date(parseInt(hislist[i].datetime)).toLocaleString().replace(',',''),
+				_title = (hislist[i].title.length > 10)?hislist[i].title.substring(0,7)+'...':hislist[i].title;
+
+			var append = '<li id="uuid_'+hislist[i].noticationuuid+'"><img src="/images/msg.png" \/><span>'+_title+'<\/span><p>'+_datetime+'<\/p><div class="deletemsgtemplate"><\/div><\/li>';
 			$('.history-list').append(append);
 			//点击事件
 			inithistoryevent($('#uuid_'+hislist[i].noticationuuid));

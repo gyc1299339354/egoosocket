@@ -11,7 +11,7 @@ var express = require('express'),
 	egoomongodb = require("egoomongodb"),
 	notication = require("notication");
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 server.listen(port);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -178,6 +178,10 @@ app.post('/getmessage', function (req, res) {
 //获取用户的推送纪录
 app.post('/getnotihistory', function (req, res) {
 	notication.getnotihistorybyuserid(req.body.userid,res);
+});
+//获取用户被推送的消息纪录
+app.post('/getbenoticationhistorybyuserid',function(req,res){
+	notication.getbenoticationhistorybyuserid(req.body.userid,res);
 });
 //获取推送详情
 app.post('/getnoticationbyuuid', function (req, res) {

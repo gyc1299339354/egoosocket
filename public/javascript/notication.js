@@ -22,9 +22,17 @@ function nextOrClose(dom){
         //show next notications
         showNotication(_notication[_index]);
         $(_dom).attr('data-next',parseInt(_index)+1);
+        //下标数目
+        $('.restnotiction').html(window.notications.length-$(_dom).attr('data-next'));
+        if(!_notication[_index+1]){
+            $('.close').html('关闭');
+        }else{
+            $('.close').html('下一条');
+        }
     }else{
         //关闭
-        alert('close');
+        //alert('close');
+        bound.jSReturnBack();
     }
 }
 
@@ -95,7 +103,12 @@ function getUnreadsByUserid(userid){
         data:{userid:_userid},
         datatype:'json',
         success: function (data) {
-            setNotications(data,nextOrClose);
+            if(data.length === 0){
+                $('.restnotiction').css('display','none');
+            }else{
+                setNotications(data,nextOrClose);
+            }
+
         }
     });
 }
@@ -123,14 +136,71 @@ function confirmNotication(uuid) {
         }
     });
 }
+/*
+ * 根据userid查询已读的消息推送
+ * */
+function getReadsByUserid(userid){
 
+    var _userid = '';
+    if(userid && typeof userid === 'string'){
+        _userid = userid;
+    }
+
+    $.ajax({
+        url:'/getbenoticationhistorybyuserid',
+        type:'post',
+        data:{userid:_userid},
+        datatype:'json',
+        success: function (data) {
+            initHistory(data);
+        }
+    });
+}
+
+function initHistory(historyList){
+    if(historyList && typeof historyList==='object' && historyList.length !== 0){
+        $('.history-list ul').html('');
+        for(var i=0;i<historyList.length;i++){
+            var append = '<li noticationuuid="'+historyList[i].noticationuuid+'" ><p>'+historyList[i].title+'<\/p><\/li>';
+            $('.history-list ul').append(append);
+        }
+        $('.history-list-ul li').click(function () {
+            var uuid = $(this).attr('noticationuuid');
+
+            if(uuid && uuid.length!==0){
+                $.ajax({
+                    url:'/getnoticationbyuuid',
+                    type:'post',
+                    data:{uuid:uuid},
+                    datatype:'json',
+                    success: function (data) {
+                        //console.log(data);
+                        var _title = data.title,
+                            _content = data.content;
+                        $('.title').html('<p>'+_title+'<\/p>');
+                        $('.noticationbody').html(_content);
+                    }
+                });
+            }
+        });
+    }else{
+        return false;
+    }
+}
+
+function initstyle() {
+    //高宽初始化
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    $('.history-list').css('height',windowHeight-84);
+}
 
 /**
  * 初始化
  */
 +(function () {
     //http://127.0.0.1:3000/noticationview#userid=
-    var parseParams = document.URL.split('#'),
+    var parseParams = document.URL.split('?'),
         _userid;
 
     if(parseParams.length <= 1 ){
@@ -141,9 +211,17 @@ function confirmNotication(uuid) {
         _userid = pattern.exec(parseParams[1])[1];
         _userid = (_userid.indexOf('&') > 0)?_userid.split('&')[0]:_userid;
         getUnreadsByUserid(_userid);
+        //
+        getReadsByUserid(_userid);
+
         window._userid = _userid;
+        //初始化页面
+        initstyle();
+        //点击事件
 
     }
 })();
 
-
+window.onresize = function(){
+    initstyle();
+}

@@ -16,7 +16,7 @@
   },
   "readmeFilename": "README.md",
   "mongodburl": "mongodb://localhost:27017/test",
-  "groupurl": "http://192.168.4.208:8080/SSIL/group.do?json=1&userid=",
+  "groupurl": "http://221.6.31.42:28080/SSIL/group.do?json=1&userid=jiangsudiaodu",
   "notificationurl": "221.6.31.42:8099",
-  "messageurl": "http://192.168.4.208:8080/s2sh/message/message_queryAll?param=all"
+  "messageurl": "http://221.6.31.42:28080/s2sh/message/message_queryAll?param=all"
 }

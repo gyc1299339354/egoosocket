@@ -228,17 +228,33 @@ p{
 	border-width: 0px !important;
 }
 .history-list li{
-	height: 30px !important;
+	height: 37px !important;
 	border-width: 0px !important;
 }
-.msg-list li p,.history-list li p{
+.msg-list li p{
 	margin: 10px 0px 0px 10px;
 	font-size: 13px;
 }
+.history-list li p{
+	font-size: 12px;
+	position: relative;
+	float: right;
+	margin-right: 10px;
+	color: rgb(111, 111, 111);
+}
 .history-list li span{
 	font-size: 13px;
-	margin-left: 10%;
+	position: relative;
+	float: left;
 	cursor: default;
+	margin-left: 10px;
+	margin-top: 12px;
+}
+.history-list li img{
+	position: relative;
+	float: left;
+	margin-left: 10px;
+	margin-top: 12px;
 }
 .msg-list li span{
 	display: none;
@@ -350,7 +366,7 @@ p{
 }
 .msgtemplate-input {
 	right: 140px;
-	width: 170px;
+	width: 100px;
 	background: rgba(63, 63, 63, 0.19);
 	border-width: 1px;
 	border-color: black;
@@ -503,6 +519,7 @@ p{
 	border-color: black;
 	text-align: center;
 	font-size: 18px;
+	box-shadow: 0px 1px 1px 0px black inset, 0px 1px 1px 0px rgba(240, 234, 234, 0.29);
 }
 .datetime-ul li input[name="year"] {
 	width: 40px;
@@ -534,7 +551,7 @@ p{
 	margin: 7px 0px 0px 0px;
 }
 .greenbutton {
-	height: 25px;
+	height: 23px;
 	width: 49px;
 	background: rgb(22, 48, 23);
 	border-style: solid;
@@ -543,13 +560,16 @@ p{
 	border-radius: 3px;
 	box-shadow: 0px -1px 1px 0px black inset, 0px 1px 1px 0px rgb(123, 123, 123) inset;
 	text-align: center;
-	line-height: 25px;
+	line-height: 23px;
 	font-size: 13px;
 	cursor: default;
 }
-/**
- * 右侧下方
- */
+.greenbutton:hover{
+	background: #163C17;
+}
+	/**
+     * 右侧下方
+     */
 
 .confirm {
 	position: absolute;

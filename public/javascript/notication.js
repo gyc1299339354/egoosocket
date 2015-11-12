@@ -13,10 +13,13 @@
 
 //nextOrClose
 function nextOrClose(dom){
+
     var _notication = window.notications;
     var _dom = dom || document.getElementsByClassName('close');
-    var _index = $(_dom).attr('data-next') || 0;
+    var _index = parseInt($(_dom).attr('data-next')) || 0;
     if(_notication[_index]){
+        //刷新历史
+        getReadsByUserid(window._userid);
         //confirm notication
         confirmNotication(_notication[_index].noticationuuid);
         //show next notications
@@ -161,7 +164,9 @@ function initHistory(historyList){
     if(historyList && typeof historyList==='object' && historyList.length !== 0){
         $('.history-list ul').html('');
         for(var i=0;i<historyList.length;i++){
-            var append = '<li noticationuuid="'+historyList[i].noticationuuid+'" ><p>'+historyList[i].title+'<\/p><\/li>';
+            var _datetime = new Date(parseInt(historyList[i].datetime)).toLocaleString().replace(',',''),
+                _title = (historyList[i].title.length>5)?historyList[i].title.substring(0,4)+'...':historyList[i].title;
+            var append = '<li noticationuuid="'+historyList[i].noticationuuid+'" ><img src="/images/msg.png" \/><p>'+_title+'<\/p><span>'+_datetime+'<\/span><\/li>';
             $('.history-list ul').append(append);
         }
         $('.history-list-ul li').click(function () {
@@ -193,6 +198,7 @@ function initstyle() {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
     $('.history-list').css('height',windowHeight-84);
+	$('.title').css('width',windowWidth-261);
 }
 
 /**
@@ -218,7 +224,12 @@ function initstyle() {
         //初始化页面
         initstyle();
         //点击事件
-
+        $('.close').mousedown(function () {
+            $(this).css({'font-size':'14px','background-color':'rgb(58, 57, 57)'});
+        });
+        $('.close').mouseup(function () {
+            $(this).css({'font-size':'15px','background-color':'rgb(43,43,43)'});
+        });
     }
 })();
 

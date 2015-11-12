@@ -69,20 +69,20 @@ function initStyle(){
 	//高宽初始化
 	var windowHeight = $(window).height();
 	var windowWidth = $(window).width();
-	$('.layout-center').css('width',windowWidth-554);
-	$('.duanxin-body').css('height', windowHeight*0.66-72);
-	$('.xinxi-body').css('height', windowHeight*0.66-72);
-	$('.msg-body').css('height', windowHeight*0.34-42);
-	$('.history-body').css('height', windowHeight*0.34-22);
-	$('.group-list').css('height', windowHeight*0.66-97);
-	$('.msg-list').css('height', windowHeight*0.34-67);
-	$('.center-bottom').css('height',windowHeight - 242);
-	$('.center-top-div').css('width',$('.center-top').width()-44);
-	$('.center-bottom-title').css('width',$('.center-top').width()-110);
-	$('.center-bottom-content').css('width', $('.center-bottom').width()-80);
-	$('.center-bottom-content').css('height', $('.center-bottom').height()-110);
-	$('.confirm').css('height',windowHeight-201);
-	$('.confirm-body').css('height',$('.confirm').height()-79);
+		$('.layout-center').css('width',windowWidth-554);
+		$('.duanxin-body').css('height', windowHeight*0.66-72);
+		$('.xinxi-body').css('height', windowHeight*0.66-72);
+		$('.msg-body').css('height', windowHeight*0.34-42);
+		$('.history-body').css('height', windowHeight*0.34-22);
+		$('.group-list').css('height', windowHeight*0.66-97);
+		$('.msg-list').css('height', windowHeight*0.34-67);
+		$('.center-bottom').css('height',windowHeight - 242);
+		$('.center-top-div').css('width',$('.center-top').width()-44);
+		$('.center-bottom-title').css('width',$('.center-top').width()-110);
+		$('.center-bottom-content').css('width', $('.center-bottom').width()-80);
+		$('.center-bottom-content').css('height', $('.center-bottom').height()-110);
+		$('.confirm').css('height',windowHeight-201);
+		$('.confirm-body').css('height',$('.confirm').height()-79);
 }
 //获取群组
 function getgroup(userid){
@@ -273,6 +273,11 @@ function inithistoryevent(jquerydom){
 					$('input[name="title"]').val(_title);
 					$('.center-bottom-content').val(_content);
 
+					if(data.issms){
+						//清除
+						$('.confirm-list').html('');
+						return false;
+					}
 					//反馈列表
 					var confirmList = [];
 					for(var keyname in _confirms){
@@ -289,7 +294,7 @@ function inithistoryevent(jquerydom){
 	});
 }
 //发送编辑好的推送消息
-function sendNotication(isdelay){
+function sendNotication(isdelay,issms){
 	var _title = $('input[name="title"]').val();
 	var _content = $('.center-bottom-content').val();
 
@@ -325,7 +330,9 @@ function sendNotication(isdelay){
 				_mobile = $(this).attr('mobile');
 
 			_confirms.push(JSON.parse('{"'+_userid+'":"'+_username+'"}'));
-			_mobiles.push(_mobile);
+			if($(this).attr('mobile').length>0){
+				_mobiles.push(_mobile);
+			}
 			_confirmsList.push({
 				id:_userid,
 				name:_username
@@ -337,7 +344,7 @@ function sendNotication(isdelay){
 		}
 	});
 	//发送保护，人员
-	if(_confirms.length === 0 ){
+	if(_confirms.length === 0 && _mobiles.length === 0){
 		$('.center-top-div').addClass('invalidcontent');
 		setTimeout(function () {
 			$('.center-top-div').removeClass('invalidcontent')
@@ -358,20 +365,21 @@ function sendNotication(isdelay){
 	}else{
 		return false;
 	}
+	//是否短信发送
+	if(issms){
+		_data.issms = issms;
+	}
 	//延迟发送
 	if(isdelay){
 		var sendtimestamp = [$('input[name="year"]').val(),$('input[name="month"]').val(),$('input[name="day"]').val(),$('input[name="hour"]').val(),$('input[name="minite"]').val(),0];
-		//console.log(sendtimestamp);
-		//if(sendtimestamp - (new Date()).valueOf() <= 0){
-		//	return false;
-		//}else{
-			_data.sendtime = sendtimestamp;
-		//}
+		_data.sendtime = sendtimestamp;
 	}
 	//动画
 	loadingAimate();
 	//加入反馈确认表
-	confirmAnimate(_confirmsList);
+	if(!issms){
+		confirmAnimate(_confirmsList);
+	}
 	//发送请求
 	$.ajax({
 		url:'/notication',

@@ -145,6 +145,10 @@ SkyRTC.rtc.on('error', function(error) {
 app.post('/notication', function (req, res) {
 	notication.insertAndpost(req.body,res);
 });
+//发送短信
+//app.get('/sendsms', function (req, res) {
+//
+//});
 //消息发送制定页
 app.get('/noticationsend', function (req,res) {
 	res.sendfile(__dirname + '/views/noticationSend.html');

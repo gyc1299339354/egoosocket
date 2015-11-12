@@ -1,8 +1,9 @@
-body,
+﻿body,
 html {
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
+	font-family: 黑体;
 }
 .background {
 	position: absolute;
@@ -17,13 +18,15 @@ html {
 	opacity: 0.3;
 }
 .title {
-	position: absolute;
-	top: 10%;
-	width: 100%;
-	height: 70px;
-	background-color: rgba(113, 112, 112, 0.28);
-	border: solid 1px;
-	text-align: center;
+	  position: absolute;
+  top: 40px;
+  width: 77%;
+  height: 70px;
+  background-color: rgba(53, 5, 5, 1);
+  border: solid 1px;
+  text-align: center;
+  left: 260px;
+  box-shadow: 0px 1px 1px 0px black inset,0px 1px 1px 0px rgb(56, 56, 56);
 }
 .title p {
 	letter-spacing: 5px;
@@ -33,12 +36,13 @@ html {
 	margin: 19px 0px;
 }
 .foot {
-	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	height: 40px;
-	background-color: rgba(113, 112, 112, 0.28);
-	border: solid 1px;
+	  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 40px;
+  background-color: rgba(113, 112, 112, 0.28);
+  border: solid 1px;
+  box-shadow: 0px 0px 1px 0px black inset,0px 1px 1px 0px rgb(145, 145, 145) inset;
 }
 .foot p {
 	position: absolute;
@@ -54,12 +58,12 @@ html {
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
-	width: 90px;
-	height: 28px;
-	color: rgb(169, 169, 169);
-	font-size: 15px;
-	text-align: center;
-	line-height: 186%;
+	  width: 70px;
+  height: 25px;
+  color: rgb(169, 169, 169);
+  font-size: 15px;
+  text-align: center;
+  line-height: 176%;
 	box-shadow: 0px 1px 1px 0px rgb(121, 121, 121) inset,0px 1px 1px 0px rgb(24, 24, 24);
 	border-radius: 4px;
 	letter-spacing: 5px;
@@ -68,13 +72,12 @@ html {
 	cursor: default;
 }
 .noticationbody{
-	/*background-color: green;*/
-	position: absolute;
-	top: 25%;
-	width: 100%;
-	height: 60%;
-	padding: 0 20%;
-	color: rgb(169, 169, 169);
+	  position: absolute;
+  top: 130px;
+  width: 100%;
+  height: 60%;
+  padding: 0px 0px 0px 280px;
+  color: rgb(134, 133, 133);
 
 }
 .noticationbody p{
@@ -98,14 +101,14 @@ html {
 	position: absolute;
 	top: 42px;
 	left: 0px;
-	width: 15%;
+	width: 260px;
 	background: inherit;
 	z-index: 2;
 	border-style: solid;
 	border-width: 0px 1px 1px 0px;
 	border-color: #000000;
 	box-shadow: 0px 0px 1px 0px black inset;
-	background: rgb(61, 61, 61);
+	background: rgb(39, 37, 37);
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -116,36 +119,52 @@ html {
 
 }
 .history-list ul li{
-	height: 50px;
+	height: 35px;
 	border-style: solid;
 	border-width: 0px 0px 1px 0px;
 	border-color: rgb(74, 74, 74);
+	cursor: default;
+	line-height: 230%;
 }
 .history-list ul li:hover{
 	background: rgba(61, 61, 61,0.1);
 }
 .history-list ul li p{
-	position: absolute;
-	left: 10%;
-	color: rgb(158, 158, 158);
-	cursor: default;
+	position: relative;
+	  color: rgb(123, 123, 123);
+	float: left;
+	margin: 0px 5px;
+	font-size: 13px;
+}
+.history-list ul li img{
+	position: relative;
+	float: left;
+	margin: 9px 0px 0px 5px;
+}
+.history-list ul li span{
+	position: relative;
+	float: right;
+	margin: 0px 5px;
+	font-size: 12px;
+	 color: rgb(111, 111, 111);
 }
 
 .history-list-head{
-	height: 40px;
-	width: 15%;
-	border: 0px;
-	background: rgb(97, 58, 8);
-	box-shadow: 0px 0px 1px 0px black inset,0px 1px 1px 0px white inset;
-	border-style: solid;
-	border-width: 1px 1px 1px 0px;
-	border-color: black;
-	text-align: center;
-	line-height: 240%;
-	color: rgb(145, 145, 145);
-	position: absolute;
-	top: 0px;
-	left: 0px;
+	  height: 40px;
+  width: 260px;
+  border: 0px;
+  background: rgb(37, 37, 37);
+  box-shadow: 0px 0px 1px 0px black inset,0px 1px 1px 0px rgb(116, 116, 116) inset;
+  border-style: solid;
+  border-width: 1px 1px 1px 0px;
+  border-color: black;
+  text-align: center;
+  line-height: 240%;
+  color: rgb(145, 145, 145);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  cursor: default;
 }
 
 .history-list::-webkit-scrollbar{

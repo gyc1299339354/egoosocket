@@ -83,6 +83,18 @@ function initStyle(){
 		$('.center-bottom-content').css('height', $('.center-bottom').height()-110);
 		$('.confirm').css('height',windowHeight-201);
 		$('.confirm-body').css('height',$('.confirm').height()-79);
+	//初始化延迟时间
+	var todaytime = new Date(),
+		thisyear = todaytime.getFullYear(),
+		thismonth = todaytime.getMonth(),
+		thisday = todaytime.getDay(),
+		thishour = todaytime.getHours(),
+		thisminite = todaytime.getMinutes();
+	$('input[name="year"]').val(thisyear);
+	$('input[name="month"]').val(thismonth);
+	$('input[name="day"]').val(thisday);
+	$('input[name="hour"]').val(thishour);
+	$('input[name="minite"]').val(thisminite);
 }
 //获取群组
 function getgroup(userid){

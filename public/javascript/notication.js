@@ -183,7 +183,7 @@ function initHistory(historyList){
                         var _title = data.title,
                             _content = data.content;
                         $('.title').html('<p>'+_title+'<\/p>');
-                        $('.noticationbody').html(_content);
+                        $('.noticationbody p').html(_content);
                     }
                 });
             }
@@ -199,6 +199,8 @@ function initstyle() {
     var windowWidth = $(window).width();
     $('.history-list').css('height',windowHeight-84);
 	$('.title').css('width',windowWidth-261);
+	$('.noticationbody').css('width',windowWidth-361);
+	$('.noticationbody').css('height',windowHeight-290);
 }
 
 /**

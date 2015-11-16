@@ -230,8 +230,11 @@ p{
 	height: 23px !important;
 	border-width: 0px !important;
 }
+.history-list{
+	padding-top: 5px;
+}
 .history-list li{
-	height: 40px !important;
+	height: 23px !important;
 	border-width: 0px !important;
 }
 .msg-list li p{
@@ -242,7 +245,7 @@ p{
 	font-size: 12px;
 	position: relative;
 	float: right;
-	margin-right: 10px;
+	margin: 2px 10px 0px 0px;
 	color: rgb(111, 111, 111);
 }
 .history-list li span{
@@ -251,13 +254,13 @@ p{
 	float: left;
 	cursor: default;
 	margin-left: 10px;
-	margin-top: 12px;
+	margin-top: 2px;
 }
 .history-list li img{
 	position: relative;
 	float: left;
 	margin-left: 10px;
-	margin-top: 12px;
+	margin-top: 2px;
 }
 .msg-list li span{
 	display: none;
@@ -345,11 +348,12 @@ p{
 .add-input {
 		left: 20px;
 	  width: 170px;
-	  background: rgba(12, 97, 13, 1);
+	  background: rgba(12, 97, 13, 0.47);
 	  border-width: 1px;
 	  border-color: black;
 	  border-radius: 5px 0px 0px 5px;
 	  box-shadow: 0px 1px 1px 0px rgb(139, 139, 139), 0px 1px 1px 0px black inset, 0px 1px 1px 0px rgb(77, 77, 77);
+	  color: rgb(25, 208, 35);
 }
 .add-icon {
 	top: 10px;
@@ -370,7 +374,7 @@ p{
 .msgtemplate-input {
 	right: 140px;
 	width: 100px;
-	background: rgba(12, 97, 13, 1);
+	background: rgba(12, 97, 13, 0.47);
 	border-width: 1px;
 	border-color: black;
 	border-radius: 5px;
